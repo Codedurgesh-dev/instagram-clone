@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Durgesh</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --grad:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);
+  --grad2:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);
+  --pink:#e1306c;--blue:#0095f6;
+  --bg:#fafafa;--white:#fff;--border:#dbdbdb;
+  --text:#262626;--gray:#8e8e8e;--light:#efefef;--light2:#f7f7f7;
+  --card:#fff;--nav-bg:#fff;--input-bg:#efefef;
+  --shadow:0 4px 24px rgba(0,0,0,0.08);
+  --radius:12px;
+}
+.dark{
+  --bg:#000;--white:#1a1a1a;--border:#2a2a2a;
+  --text:#fafafa;--gray:#a8a8a8;--light:#2a2a2a;--light2:#1a1a1a;
+  --card:#1a1a1a;--nav-bg:#000;--input-bg:#2a2a2a;
+  --shadow:0 4px 24px rgba(0,0,0,0.5);
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);transition:background .3s,color .3s;overflow-x:hidden;}
+img{max-width:100%;display:block;}
+button{cursor:pointer;font-family:'DM Sans',sans-serif;}
+input,textarea{font-family:'DM Sans',sans-serif;}
+
+/* ══════════ SCREENS ══════════ */
+.screen{display:none;min-height:100vh;}
+.screen.active{display:block;}
+
+/* ══════════ LOGIN ══════════ */
+#loginScreen{background:linear-gradient(135deg,#ffecd2,#fcb69f,#ff9a9e,#a18cd1);display:flex;align-items:center;justify-content:center;min-height:100vh;}
+.login-wrap{display:flex;gap:32px;align-items:center;flex-wrap:wrap;justify-content:center;padding:20px;}
+.login-phone{width:250px;display:none;}
+@media(min-width:900px){.login-phone{display:block;}}
+.login-phone-img{background:var(--white);border-radius:36px;padding:8px;box-shadow:0 20px 60px rgba(0,0,0,0.2);overflow:hidden;}
+.login-box{background:var(--white);border-radius:16px;padding:40px 36px;width:340px;box-shadow:0 8px 40px rgba(0,0,0,0.12);}
+.login-logo{font-family:'Dancing Script',cursive;font-size:42px;background:var(--grad2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-align:center;margin-bottom:28px;}
+.login-field{margin-bottom:12px;}
+.login-field input{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:var(--input-bg);outline:none;transition:border .2s;}
+.login-field input:focus{border-color:#a8a8a8;}
+.login-btn{width:100%;padding:12px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:14px;margin-top:4px;transition:opacity .2s;}
+.login-btn:hover{opacity:.85;}
+.login-or{display:flex;align-items:center;gap:16px;margin:18px 0;color:var(--gray);font-size:13px;font-weight:600;}
+.login-or::before,.login-or::after{content:'';flex:1;height:1px;background:var(--border);}
+.login-fb{display:flex;align-items:center;justify-content:center;gap:8px;color:#385185;font-weight:700;font-size:14px;cursor:pointer;margin-bottom:14px;}
+.login-forgot{text-align:center;color:var(--gray);font-size:12px;cursor:pointer;margin-bottom:18px;}
+.login-forgot span{color:var(--text);}
+.login-register{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:18px;text-align:center;font-size:14px;margin-top:12px;width:340px;}
+.login-register a{color:var(--blue);font-weight:700;cursor:pointer;}
+.login-app{text-align:center;margin-top:16px;color:var(--text);font-size:13px;}
+.login-app-btns{display:flex;gap:8px;justify-content:center;margin-top:8px;}
+.login-app-btn{border:1px solid var(--text);border-radius:8px;padding:6px 14px;font-size:12px;font-weight:600;background:transparent;color:var(--text);}
+
+/* ══════════ MAIN APP ══════════ */
+#appScreen{padding-bottom:60px;}
+.top-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--nav-bg);border-bottom:1px solid var(--border);height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;max-width:100%;transition:background .3s;}
+.top-logo{font-family:'Dancing Script',cursive;font-size:28px;background:var(--grad2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;cursor:pointer;}
+.top-icons{display:flex;gap:16px;align-items:center;}
+.top-icons svg,.top-icons .icon-btn{cursor:pointer;transition:transform .15s;color:var(--text);}
+.top-icons svg:hover{transform:scale(1.15);}
+.notif-badge{position:relative;}
+.notif-badge::after{content:attr(data-count);position:absolute;top:-6px;right:-6px;background:#ed4956;color:#fff;font-size:9px;font-weight:700;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 3px;}
+
+/* ══════════ MAIN LAYOUT ══════════ */
+.app-layout{max-width:935px;margin:56px auto 0;display:grid;grid-template-columns:1fr 320px;gap:24px;padding:20px 10px;}
+@media(max-width:768px){.app-layout{grid-template-columns:1fr;padding:10px 0;}}
+
+/* ══════════ STORIES ══════════ */
+.stories-bar{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;display:flex;gap:16px;overflow-x:auto;scrollbar-width:none;margin-bottom:20px;}
+.stories-bar::-webkit-scrollbar{display:none;}
+.story-item{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;min-width:64px;flex-shrink:0;}
+.story-ring{width:58px;height:58px;border-radius:50%;padding:2.5px;transition:transform .2s;}
+.story-ring.has-story{background:var(--grad);}
+.story-ring.no-story{background:var(--border);}
+.story-ring.seen{background:conic-gradient(#c7c7c7 100%,#c7c7c7 100%);}
+.story-avatar{width:100%;height:100%;border-radius:50%;border:2.5px solid var(--card);background:var(--light);display:flex;align-items:center;justify-content:center;font-size:22px;overflow:hidden;position:relative;}
+.add-story-btn{position:absolute;bottom:-2px;right:-2px;width:20px;height:20px;background:var(--blue);border-radius:50%;border:2px solid var(--card);display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:700;}
+.story-name{font-size:11px;color:var(--text);max-width:64px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+/* ══════════ POST ══════════ */
+.post{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:20px;overflow:hidden;animation:fadeUp .4s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.post-header{display:flex;align-items:center;padding:12px 14px;gap:10px;}
+.post-avatar-wrap{width:38px;height:38px;border-radius:50%;padding:2px;flex-shrink:0;}
+.post-avatar-wrap.active{background:var(--grad);}
+.post-avatar-wrap.inactive{background:var(--border);}
+.post-avi{width:100%;height:100%;border-radius:50%;border:2px solid var(--card);background:var(--light);display:flex;align-items:center;justify-content:center;font-size:17px;}
+.post-meta{flex:1;}
+.post-uname{font-weight:700;font-size:13.5px;cursor:pointer;}
+.post-uname:hover{text-decoration:underline;}
+.post-loc{font-size:11px;color:var(--gray);}
+.post-more-btn{background:none;border:none;font-size:20px;color:var(--gray);padding:4px 8px;border-radius:6px;}
+.post-more-btn:hover{background:var(--light);}
+
+.post-img-wrap{position:relative;overflow:hidden;cursor:pointer;aspect-ratio:1/1;}
+.post-img-wrap .bg{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:90px;user-select:none;}
+.post-img-wrap .carousel-dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:5px;}
+.post-img-wrap .carousel-dots span{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.6);}
+.post-img-wrap .carousel-dots span.active{background:#fff;}
+.heart-pop{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:100px;opacity:0;pointer-events:none;}
+.heart-pop.anim{animation:heartBoom .7s ease forwards;}
+@keyframes heartBoom{0%{opacity:0;transform:scale(0)}35%{opacity:1;transform:scale(1.3)}65%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.9)}}
+
+.post-actions{display:flex;align-items:center;padding:8px 12px;gap:2px;}
+.act-btn{background:none;border:none;padding:6px;border-radius:50%;transition:transform .15s,background .15s;display:flex;align-items:center;justify-content:center;}
+.act-btn:hover{background:var(--light);transform:scale(1.1);}
+.act-btn:active{transform:scale(.92);}
+.act-btn.liked svg{fill:#ed4956;stroke:#ed4956;}
+.act-btn.saved svg{fill:var(--text);stroke:var(--text);}
+.spacer{flex:1;}
+
+.post-likes{padding:0 14px 4px;font-size:13.5px;font-weight:700;}
+.post-likes .avatars{display:inline-flex;margin-right:6px;}
+.post-caption{padding:0 14px 5px;font-size:13.5px;line-height:1.5;}
+.post-caption .uname{font-weight:700;margin-right:5px;cursor:pointer;}
+.post-caption .more{color:var(--gray);cursor:pointer;}
+.post-tags{padding:0 14px 5px;}
+.post-tags span{color:var(--blue);font-size:13px;cursor:pointer;margin-right:5px;}
+.view-comments{padding:0 14px 4px;color:var(--gray);font-size:13px;cursor:pointer;}
+.comment-list{padding:0 14px 4px;}
+.comment-list .c{font-size:13px;line-height:1.5;margin-bottom:3px;}
+.comment-list .c .cu{font-weight:700;margin-right:5px;cursor:pointer;}
+.post-time{padding:0 14px 10px;font-size:10px;color:var(--gray);text-transform:uppercase;letter-spacing:.5px;}
+.comment-input-row{border-top:1px solid var(--border);display:flex;align-items:center;padding:8px 14px;gap:10px;}
+.comment-input-row .emoji-pick{font-size:22px;cursor:pointer;flex-shrink:0;}
+.comment-input-row input{flex:1;border:none;outline:none;font-size:13.5px;background:transparent;color:var(--text);}
+.comment-input-row .post-btn{background:none;border:none;color:var(--blue);font-weight:700;font-size:13.5px;opacity:.4;transition:opacity .2s;}
+.comment-input-row .post-btn.on{opacity:1;}
+
+/* ══════════ SIDEBAR ══════════ */
+.sidebar{position:sticky;top:76px;height:fit-content;}
+.sidebar-me{display:flex;align-items:center;gap:14px;margin-bottom:20px;}
+.sidebar-me-avi{width:54px;height:54px;border-radius:50%;background:var(--grad);padding:2.5px;cursor:pointer;flex-shrink:0;}
+.sidebar-me-avi-inner{width:100%;height:100%;border-radius:50%;border:2.5px solid var(--card);background:var(--light);display:flex;align-items:center;justify-content:center;font-size:24px;}
+.sidebar-me-name{font-weight:700;font-size:14px;}
+.sidebar-me-full{font-size:13px;color:var(--gray);}
+.sidebar-switch{margin-left:auto;color:var(--blue);font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;}
+.sidebar-sec-hd{display:flex;justify-content:space-between;margin-bottom:14px;}
+.sidebar-sec-hd .label{color:var(--gray);font-weight:700;font-size:13px;}
+.sidebar-sec-hd .action{font-weight:700;font-size:12px;cursor:pointer;color:var(--text);}
+.suggest-row{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.suggest-avi{width:34px;height:34px;border-radius:50%;background:var(--grad);padding:2px;flex-shrink:0;}
+.suggest-avi-in{width:100%;height:100%;border-radius:50%;border:2px solid var(--card);background:var(--light);display:flex;align-items:center;justify-content:center;font-size:14px;}
+.suggest-name{font-weight:700;font-size:13px;}
+.suggest-sub{font-size:11px;color:var(--gray);}
+.suggest-follow{margin-left:auto;color:var(--blue);font-weight:700;font-size:13px;background:none;border:none;}
+.suggest-follow.on{color:var(--gray);}
+.sidebar-footer{margin-top:18px;color:var(--gray);font-size:11px;line-height:2;}
+.sidebar-footer a{color:var(--gray);text-decoration:none;}
+.sidebar-footer a:hover{text-decoration:underline;}
+
+/* ══════════ BOTTOM NAV ══════════ */
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--nav-bg);border-top:1px solid var(--border);padding:10px 0 6px;z-index:200;justify-content:space-around;align-items:center;}
+.bottom-nav .bn-btn{background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 8px;border-radius:8px;color:var(--text);}
+.bottom-nav .bn-btn svg{transition:transform .15s;}
+.bottom-nav .bn-btn.active svg{stroke:var(--text);fill:var(--text);}
+@media(max-width:768px){.bottom-nav{display:flex;}.app-layout{padding-bottom:0;}.sidebar{display:none;}}
+
+/* ══════════ MODALS ══════════ */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:300;align-items:center;justify-content:center;}
+.overlay.open{display:flex;}
+.modal{background:var(--card);border-radius:16px;overflow:hidden;max-width:95vw;animation:modalPop .25s ease;}
+@keyframes modalPop{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-close{position:absolute;top:16px;right:16px;background:rgba(0,0,0,.5);border:none;color:#fff;font-size:24px;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+
+/* Story Viewer */
+#storyViewer{background:#000;position:fixed;inset:0;z-index:500;display:none;flex-direction:column;}
+#storyViewer.open{display:flex;}
+.sv-header{position:absolute;top:0;left:0;right:0;z-index:10;padding:14px 16px 0;}
+.sv-bars{display:flex;gap:4px;margin-bottom:10px;}
+.sv-bar{flex:1;height:2.5px;background:rgba(255,255,255,.35);border-radius:2px;overflow:hidden;}
+.sv-bar-fill{height:100%;background:#fff;width:0;transition:width 5s linear;}
+.sv-user{display:flex;align-items:center;gap:10px;color:#fff;}
+.sv-avi{width:34px;height:34px;border-radius:50%;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:16px;background:rgba(255,255,255,.2);}
+.sv-name{font-weight:600;font-size:14px;}
+.sv-time{font-size:11px;opacity:.7;}
+.sv-close{margin-left:auto;background:none;border:none;color:#fff;font-size:26px;}
+.sv-body{flex:1;display:flex;align-items:center;justify-content:center;font-size:120px;}
+.sv-tap-left,.sv-tap-right{position:absolute;top:0;bottom:0;width:35%;}
+.sv-tap-left{left:0;}
+.sv-tap-right{right:0;}
+.sv-footer{padding:14px 16px 24px;display:flex;align-items:center;gap:10px;}
+.sv-footer input{flex:1;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.4);border-radius:24px;padding:10px 16px;color:#fff;outline:none;font-size:14px;}
+.sv-footer input::placeholder{color:rgba(255,255,255,.6);}
+.sv-footer-btns{display:flex;gap:12px;color:#fff;}
+
+/* Reels */
+#reelsScreen{background:#000;position:fixed;inset:0;z-index:400;display:none;overflow:hidden;}
+#reelsScreen.open{display:block;}
+.reel-close{position:fixed;top:16px;left:16px;background:none;border:none;color:#fff;font-size:26px;z-index:401;}
+.reel-wrap{height:100vh;overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none;}
+.reel-wrap::-webkit-scrollbar{display:none;}
+.reel-item{height:100vh;width:100%;scroll-snap-align:start;position:relative;display:flex;align-items:center;justify-content:center;font-size:120px;}
+.reel-overlay{position:absolute;right:12px;bottom:100px;display:flex;flex-direction:column;gap:20px;align-items:center;}
+.reel-act{display:flex;flex-direction:column;align-items:center;gap:4px;color:#fff;}
+.reel-act svg{filter:drop-shadow(0 2px 4px rgba(0,0,0,.5));}
+.reel-act span{font-size:12px;font-weight:600;text-shadow:0 1px 3px rgba(0,0,0,.6);}
+.reel-info{position:absolute;left:12px;bottom:24px;color:#fff;max-width:70%;}
+.reel-info .ru{font-weight:700;font-size:15px;margin-bottom:4px;}
+.reel-info .rc{font-size:13px;opacity:.9;margin-bottom:8px;}
+.reel-audio{display:flex;align-items:center;gap:6px;font-size:13px;}
+.reel-audio-disc{width:28px;height:28px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:14px;animation:spin 4s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.reel-follow-btn{background:transparent;border:1px solid #fff;color:#fff;border-radius:6px;padding:3px 10px;font-size:12px;font-weight:600;margin-left:4px;}
+.reel-follow-btn.on{background:var(--blue);border-color:var(--blue);}
+
+/* Explore */
+#exploreModal .modal{width:min(550px,95vw);max-height:90vh;display:flex;flex-direction:column;}
+.explore-search-bar{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.explore-search-bar input{flex:1;border:none;outline:none;font-size:15px;background:transparent;color:var(--text);}
+.explore-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;overflow-y:auto;flex:1;}
+.explore-tile{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;font-size:42px;cursor:pointer;position:relative;overflow:hidden;}
+.explore-tile:hover .explore-hover{opacity:1;}
+.explore-hover{position:absolute;inset:0;background:rgba(0,0,0,.35);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;opacity:0;transition:opacity .2s;gap:4px;font-size:13px;font-weight:600;}
+
+/* DMs */
+#dmModal .modal{width:min(750px,95vw);height:min(550px,90vh);display:flex;}
+.dm-list{width:320px;border-right:1px solid var(--border);display:flex;flex-direction:column;}
+.dm-list-hd{padding:14px 16px;font-weight:700;font-size:16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.dm-list-hd span{flex:1;}
+.dm-search{padding:10px 14px;border-bottom:1px solid var(--border);}
+.dm-search input{width:100%;background:var(--input-bg);border:none;outline:none;border-radius:8px;padding:8px 12px;font-size:13px;color:var(--text);}
+.dm-users{overflow-y:auto;flex:1;}
+.dm-user-row{display:flex;align-items:center;gap:12px;padding:12px 14px;cursor:pointer;transition:background .15s;}
+.dm-user-row:hover,.dm-user-row.sel{background:var(--light);}
+.dm-user-avi{width:48px;height:48px;border-radius:50%;background:var(--grad);padding:2px;flex-shrink:0;position:relative;}
+.dm-user-avi-in{width:100%;height:100%;border-radius:50%;border:2px solid var(--card);background:var(--light);display:flex;align-items:center;justify-content:center;font-size:20px;}
+.dm-online-dot{position:absolute;bottom:1px;right:1px;width:13px;height:13px;background:#31a24c;border-radius:50%;border:2px solid var(--card);}
+.dm-user-info{flex:1;min-width:0;}
+.dm-user-name{font-weight:700;font-size:13.5px;}
+.dm-user-preview{font-size:12px;color:var(--gray);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.dm-user-time{font-size:11px;color:var(--gray);flex-shrink:0;}
+.dm-chat{flex:1;display:flex;flex-direction:column;}
+.dm-chat-hd{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.dm-chat-hd .avi{width:36px;height:36px;border-radius:50%;background:var(--grad);padding:2px;}
+.dm-chat-hd .avi-in{width:100%;height:100%;border-radius:50%;border:2px solid var(--card);background:var(--light);display:flex;align-items:center;justify-content:center;font-size:16px;}
+.dm-chat-hd .name{font-weight:700;font-size:14px;flex:1;}
+.dm-messages{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px;}
+.dm-msg{max-width:70%;padding:10px 14px;border-radius:20px;font-size:13.5px;line-height:1.5;}
+.dm-msg.them{background:var(--light);align-self:flex-start;border-bottom-left-radius:4px;}
+.dm-msg.me{background:var(--blue);color:#fff;align-self:flex-end;border-bottom-right-radius:4px;}
+.dm-input-row{padding:12px 14px;border-top:1px solid var(--border);display:flex;gap:10px;align-items:center;}
+.dm-input-row input{flex:1;border:1px solid var(--border);border-radius:24px;padding:10px 16px;outline:none;font-size:13.5px;background:var(--input-bg);color:var(--text);}
+.dm-input-row button{background:var(--blue);color:#fff;border:none;border-radius:50%;width:38px;height:38px;font-size:18px;display:flex;align-items:center;justify-content:center;}
+@media(max-width:600px){.dm-list{display:none;}.dm-chat{display:flex;}}
+
+/* Notifications */
+#notifModal .modal{width:min(400px,95vw);max-height:80vh;display:flex;flex-direction:column;}
+.notif-hd{padding:14px 16px;font-weight:700;font-size:16px;border-bottom:1px solid var(--border);}
+.notif-list{overflow-y:auto;flex:1;}
+.notif-row{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);cursor:pointer;}
+.notif-row:hover{background:var(--light2);}
+.notif-avi{width:40px;height:40px;border-radius:50%;background:var(--grad);padding:2px;flex-shrink:0;}
+.notif-avi-in{width:100%;height:100%;border-radius:50%;border:2px solid var(--card);background:var(--light);display:flex;align-items:center;justify-content:center;font-size:18px;}
+.notif-text{flex:1;font-size:13px;line-height:1.5;}
+.notif-text b{font-weight:700;}
+.notif-time{font-size:11px;color:var(--gray);}
+.notif-post-thumb{width:44px;height:44px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.notif-follow-btn{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:13px;font-weight:700;flex-shrink:0;}
+.notif-follow-btn.on{background:var(--light);color:var(--text);}
+
+/* Create Post */
+#createModal .modal{width:min(500px,95vw);}
+.create-hd{padding:14px 16px;font-weight:700;font-size:15px;text-align:center;border-bottom:1px solid var(--border);}
+.create-drop{border:2px dashed var(--border);border-radius:12px;margin:20px;padding:40px;text-align:center;cursor:pointer;transition:border-color .2s;}
+.create-drop:hover{border-color:var(--blue);}
+.create-drop .icon{font-size:48px;margin-bottom:12px;}
+.create-drop .title{font-weight:600;font-size:16px;margin-bottom:8px;}
+.create-drop .sub{color:var(--gray);font-size:13px;}
+.create-select-btn{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:10px 24px;font-weight:700;font-size:14px;margin-top:14px;}
+.create-form{padding:16px 20px;display:none;}
+.create-preview{width:100%;aspect-ratio:1/1;border-radius:12px;margin-bottom:16px;display:flex;align-items:center;justify-content:center;font-size:80px;object-fit:cover;}
+.create-caption{width:100%;min-height:80px;border:1px solid var(--border);border-radius:8px;padding:12px;resize:none;font-size:14px;outline:none;background:var(--input-bg);color:var(--text);margin-bottom:12px;}
+.create-tags-input{width:100%;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:14px;outline:none;background:var(--input-bg);color:var(--text);margin-bottom:12px;}
+.create-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-top:1px solid var(--border);font-size:14px;}
+.create-share-btn{width:100%;background:var(--blue);color:#fff;border:none;border-radius:8px;padding:12px;font-weight:700;font-size:15px;margin-top:14px;}
+
+/* Profile */
+#profileModal .modal{width:min(600px,95vw);max-height:90vh;display:flex;flex-direction:column;}
+.profile-hd{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.profile-hd .back{background:none;border:none;font-size:22px;color:var(--text);}
+.profile-hd-name{font-weight:700;font-size:15px;flex:1;}
+.profile-body{overflow-y:auto;flex:1;}
+.profile-top{padding:20px;}
+.profile-info-row{display:flex;align-items:center;gap:16px;margin-bottom:20px;}
+.profile-big-avi{width:90px;height:90px;border-radius:50%;background:var(--grad);padding:3px;flex-shrink:0;}
+.profile-big-avi-in{width:100%;height:100%;border-radius:50%;border:3px solid var(--card);background:var(--light);display:flex;align-items:center;justify-content:center;font-size:40px;}
+.profile-stats{display:flex;gap:20px;flex:1;justify-content:center;}
+.profile-stat{text-align:center;}
+.profile-stat .num{font-weight:700;font-size:17px;}
+.profile-stat .label{font-size:12px;color:var(--gray);}
+.profile-name{font-weight:700;font-size:14px;}
+.profile-bio{font-size:13px;line-height:1.6;color:var(--text);}
+.profile-link{color:var(--blue);font-size:13px;cursor:pointer;}
+.profile-btns{display:flex;gap:8px;margin-top:14px;}
+.profile-edit-btn,.profile-share-btn{flex:1;background:var(--light);border:none;border-radius:8px;padding:8px;font-weight:700;font-size:13.5px;color:var(--text);}
+.profile-follow-btn{flex:1;background:var(--blue);border:none;border-radius:8px;padding:8px;font-weight:700;font-size:13.5px;color:#fff;}
+.profile-tab-bar{display:flex;border-bottom:1px solid var(--border);}
+.profile-tab{flex:1;background:none;border:none;padding:12px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:13px;font-weight:600;color:var(--gray);border-bottom:2px solid transparent;}
+.profile-tab.active{color:var(--text);border-bottom-color:var(--text);}
+.profile-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+.profile-thumb{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;font-size:44px;cursor:pointer;position:relative;}
+.profile-thumb:hover::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.25);}
+
+/* Settings */
+#settingsModal .modal{width:min(380px,95vw);max-height:85vh;display:flex;flex-direction:column;}
+.settings-hd{padding:14px 16px;font-weight:700;font-size:16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.settings-hd .back-btn{background:none;border:none;font-size:22px;color:var(--text);}
+.settings-list{overflow-y:auto;flex:1;}
+.settings-item{display:flex;align-items:center;gap:14px;padding:14px 16px;cursor:pointer;border-bottom:1px solid var(--border);transition:background .15s;}
+.settings-item:hover{background:var(--light2);}
+.settings-item .s-icon{font-size:22px;width:36px;text-align:center;}
+.settings-item .s-label{flex:1;font-size:14px;}
+.settings-item .s-arrow{color:var(--gray);}
+.toggle-wrap{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--border);}
+.toggle-wrap .s-icon{font-size:22px;width:36px;text-align:center;}
+.toggle-wrap .s-label{flex:1;font-size:14px;}
+.toggle{width:44px;height:24px;background:var(--border);border-radius:12px;position:relative;cursor:pointer;transition:background .2s;}
+.toggle.on{background:var(--blue);}
+.toggle::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;background:#fff;border-radius:50%;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.3);}
+.toggle.on::after{left:22px;}
+.settings-logout{width:100%;background:none;border:none;color:#ed4956;font-weight:700;font-size:15px;padding:18px;border-top:1px solid var(--border);margin-top:8px;}
+
+/* Toast */
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:11px 22px;border-radius:24px;font-size:13.5px;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;}
+.dark .toast{background:#e0e0e0;color:#111;}
+.toast.show{opacity:1;}
+
+/* Ripple */
+@keyframes ripple{to{transform:scale(4);opacity:0}}
+</style>
+</head>
+<body>
+
+<!-- ══════════ LOGIN SCREEN ══════════ -->
+<div id="loginScreen" class="screen active">
+  <div class="login-wrap">
+    <div class="login-phone">
+      <div class="login-phone-img">
+        <div style="background:linear-gradient(135deg,#667eea,#764ba2);aspect-ratio:.46/1;border-radius:28px;display:flex;align-items:center;justify-content:center;font-size:60px;">📱</div>
+      </div>
+    </div>
+    <div>
+      <div class="login-box">
+        <div class="login-logo">Durgesh</div>
+        <div class="login-field"><input type="text" id="loginUser" placeholder="Phone number, username, or email" value="durgesh_dev"></div>
+        <div class="login-field"><input type="password" id="loginPass" placeholder="Password" value="••••••••"></div>
+        <button class="login-btn" onclick="doLogin()">Log in</button>
+        <div class="login-or">OR</div>
+        <div class="login-fb">
+          <span style="font-size:18px;">🔵</span> Log in with Facebook
+        </div>
+        <div class="login-forgot"><span>Forgot password?</span></div>
+      </div>
+      <div class="login-register">Don't have an account? <a onclick="showToast('Sign up coming soon!')">Sign up</a></div>
+      <div class="login-app">
+        <div>Get the app.</div>
+        <div class="login-app-btns">
+          <button class="login-app-btn" onclick="showToast('App Store')">🍎 App Store</button>
+          <button class="login-app-btn" onclick="showToast('Google Play')">▶ Google Play</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ MAIN APP ══════════ -->
+<div id="appScreen" class="screen">
+
+  <!-- TOP NAV -->
+  <nav class="top-nav">
+    <div class="top-logo" onclick="scrollToTop()">Instagram</div>
+    <div class="top-icons">
+      <!-- Add Post -->
+      <svg onclick="openModal('createModal')" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+      <!-- Reels -->
+      <svg onclick="openReels()" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
+      <!-- Notif -->
+      <div class="notif-badge" data-count="5" onclick="openModal('notifModal')">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+      </div>
+      <!-- DM -->
+      <svg onclick="openModal('dmModal')" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+      <!-- Settings -->
+      <svg onclick="openModal('settingsModal')" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+    </div>
+  </nav>
+
+  <!-- LAYOUT -->
+  <div class="app-layout">
+    <!-- FEED -->
+    <div class="feed-col">
+      <div class="stories-bar" id="storiesBar"></div>
+      <div id="feedPosts"></div>
+    </div>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-me">
+        <div class="sidebar-me-avi" onclick="openProfileModal('durgesh_dev')">
+          <div class="sidebar-me-avi-inner">🧑</div>
+        </div>
+        <div>
+          <div class="sidebar-me-name">durgesh_dev</div>
+          <div class="sidebar-me-full">Durgesh • Coder 🚀</div>
+        </div>
+        <span class="sidebar-switch">Switch</span>
+      </div>
+      <div class="sidebar-sec-hd"><span class="label">Suggestions For You</span><span class="action" onclick="showToast('See All')">See All</span></div>
+      <div id="sidebarSuggestions"></div>
+      <div class="sidebar-footer">
+        <a href="#">About</a> · <a href="#">Help</a> · <a href="#">Press</a> · <a href="#">API</a> · <a href="#">Jobs</a> · <a href="#">Privacy</a> · <a href="#">Terms</a><br>
+        © 2026 INSTAGRAM FROM META
+      </div>
+    </aside>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav" id="bottomNav">
+    <button class="bn-btn active" onclick="setTab('home',this)">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    </button>
+    <button class="bn-btn" onclick="openModal('exploreModal')">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button>
+    <button class="bn-btn" onclick="openReels()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
+    </button>
+    <button class="bn-btn" onclick="openModal('dmModal')">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+    </button>
+    <button class="bn-btn" onclick="openProfileModal('durgesh_dev')">
+      <div style="width:26px;height:26px;border-radius:50%;background:var(--grad);padding:2px;"><div style="width:100%;height:100%;border-radius:50%;border:2px solid var(--card);background:var(--light);display:flex;align-items:center;justify-content:center;font-size:12px;">🧑</div></div>
+    </button>
+  </nav>
+</div>
+
+<!-- ══════════ STORY VIEWER ══════════ -->
+<div id="storyViewer">
+  <div class="sv-header">
+    <div class="sv-bars" id="svBars"></div>
+    <div class="sv-user">
+      <div class="sv-avi" id="svAvi"></div>
+      <div><div class="sv-name" id="svName"></div><div class="sv-time">just now</div></div>
+      <button class="sv-close" onclick="closeStory()">✕</button>
+    </div>
+  </div>
+  <div class="sv-body" id="svBody" style="background:linear-gradient(135deg,#f093fb,#f5576c);">🌸</div>
+  <div class="sv-tap-left" onclick="prevStory()"></div>
+  <div class="sv-tap-right" onclick="nextStory()"></div>
+  <div class="sv-footer">
+    <input type="text" placeholder="Send message…" id="svInput">
+    <div class="sv-footer-btns">
+      <span style="cursor:pointer;font-size:22px;" onclick="showToast('❤️ Reaction sent!')">❤️</span>
+      <span style="cursor:pointer;font-size:22px;" onclick="showToast('Sent!')">➤</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ REELS ══════════ -->
+<div id="reelsScreen">
+  <button class="reel-close" onclick="closeReels()">✕</button>
+  <div class="reel-wrap" id="reelWrap"></div>
+</div>
+
+<!-- ══════════ EXPLORE MODAL ══════════ -->
+<div class="overlay" id="exploreModal">
+  <div class="modal" style="width:min(550px,95vw);max-height:90vh;display:flex;flex-direction:column;">
+    <div class="explore-search-bar">
+      <svg width="18" height="18" fill="none" stroke="var(--gray)" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" placeholder="Search" id="exploreSearch">
+      <button onclick="closeModal('exploreModal')" style="background:none;border:none;font-size:22px;color:var(--gray);">✕</button>
+    </div>
+    <div class="explore-grid" id="exploreGrid"></div>
+  </div>
+</div>
+
+<!-- ══════════ DM MODAL ══════════ -->
+<div class="overlay" id="dmModal">
+  <div class="modal" style="width:min(750px,95vw);height:min(560px,90vh);display:flex;position:relative;">
+    <button class="modal-close" onclick="closeModal('dmModal')">✕</button>
+    <!-- DM List -->
+    <div class="dm-list">
+      <div class="dm-list-hd">
+        <span>durgesh_dev ▾</span>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      </div>
+      <div class="dm-search"><input type="text" placeholder="Search Direct" oninput="filterDMs(this.value)"></div>
+      <div class="dm-users" id="dmUserList"></div>
+    </div>
+    <!-- Chat -->
+    <div class="dm-chat">
+      <div class="dm-chat-hd" id="dmChatHd">
+        <div class="avi"><div class="avi-in" id="dmChatAvi">👩</div></div>
+        <div class="name" id="dmChatName">priya_k</div>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer" onclick="showToast('Voice call')"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.63A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/></svg>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;margin-left:10px;" onclick="showToast('Video call')"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+      </div>
+      <div class="dm-messages" id="dmMessages"></div>
+      <div class="dm-input-row">
+        <span style="font-size:22px;cursor:pointer;" onclick="showToast('Emoji')">😊</span>
+        <input type="text" id="dmInput" placeholder="Message…" onkeydown="if(event.key==='Enter')sendDM()">
+        <span style="font-size:22px;cursor:pointer;" onclick="showToast('📷 Photo')">📷</span>
+        <span style="font-size:22px;cursor:pointer;" onclick="showToast('🎤 Voice note')">🎤</span>
+        <button onclick="sendDM()">➤</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ NOTIFICATIONS MODAL ══════════ -->
+<div class="overlay" id="notifModal">
+  <div class="modal" style="width:min(400px,95vw);max-height:80vh;display:flex;flex-direction:column;position:relative;">
+    <button class="modal-close" onclick="closeModal('notifModal')">✕</button>
+    <div class="notif-hd">Notifications</div>
+    <div class="notif-list" id="notifList"></div>
+  </div>
+</div>
+
+<!-- ══════════ CREATE POST ══════════ -->
+<div class="overlay" id="createModal">
+  <div class="modal" style="width:min(500px,95vw);position:relative;">
+    <button class="modal-close" onclick="closeModal('createModal')">✕</button>
+    <div class="create-hd">Create new post</div>
+    <div id="createDrop" class="create-drop" onclick="pickEmoji()">
+      <div class="icon">🖼️</div>
+      <div class="title">Drag photos and videos here</div>
+      <div class="sub">Share photos and videos</div>
+      <button class="create-select-btn" onclick="event.stopPropagation();pickEmoji()">Select from computer</button>
+    </div>
+    <div class="create-form" id="createForm">
+      <div class="create-preview" id="createPreview" style="background:linear-gradient(135deg,#667eea,#764ba2);"></div>
+      <textarea class="create-caption" id="createCaption" placeholder="Write a caption…"></textarea>
+      <input class="create-tags-input" id="createTags" placeholder="Add location (e.g. Mumbai, India)">
+      <div class="create-row"><span>Add people</span><span>👤</span></div>
+      <div class="create-row"><span>Accessibility</span><span>›</span></div>
+      <div class="create-row"><span>Advanced settings</span><span>›</span></div>
+      <button class="create-share-btn" onclick="sharePost()">Share</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ PROFILE MODAL ══════════ -->
+<div class="overlay" id="profileModal">
+  <div class="modal" style="width:min(600px,95vw);max-height:90vh;display:flex;flex-direction:column;position:relative;">
+    <button class="modal-close" onclick="closeModal('profileModal')">✕</button>
+    <div class="profile-hd">
+      <span class="profile-hd-name" id="profileHdName">username</span>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer" onclick="showToast('More options')"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+    </div>
+    <div class="profile-body" id="profileBody"></div>
+  </div>
+</div>
+
+<!-- ══════════ SETTINGS ══════════ -->
+<div class="overlay" id="settingsModal">
+  <div class="modal" style="width:min(380px,95vw);max-height:85vh;display:flex;flex-direction:column;position:relative;">
+    <button class="modal-close" onclick="closeModal('settingsModal')">✕</button>
+    <div class="settings-hd">Settings</div>
+    <div class="settings-list">
+      <div class="toggle-wrap">
+        <div class="s-icon">🌙</div>
+        <div class="s-label">Dark Mode</div>
+        <div class="toggle" id="darkToggle" onclick="toggleDark()"></div>
+      </div>
+      <div class="toggle-wrap">
+        <div class="s-icon">🔔</div>
+        <div class="s-label">Notifications</div>
+        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="toggle-wrap">
+        <div class="s-icon">🔒</div>
+        <div class="s-label">Private Account</div>
+        <div class="toggle" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="settings-item" onclick="openProfileModal('durgesh_dev');closeModal('settingsModal')"><div class="s-icon">👤</div><div class="s-label">Edit Profile</div><div class="s-arrow">›</div></div>
+      <div class="settings-item" onclick="showToast('Saved posts')"><div class="s-icon">🔖</div><div class="s-label">Saved</div><div class="s-arrow">›</div></div>
+      <div class="settings-item" onclick="showToast('Archive')"><div class="s-icon">📦</div><div class="s-label">Archive</div><div class="s-arrow">›</div></div>
+      <div class="settings-item" onclick="showToast('Close friends')"><div class="s-icon">⭐</div><div class="s-label">Close Friends</div><div class="s-arrow">›</div></div>
+      <div class="settings-item" onclick="openModal('exploreModal');closeModal('settingsModal')"><div class="s-icon">🔍</div><div class="s-label">Explore</div><div class="s-arrow">›</div></div>
+      <div class="settings-item" onclick="showToast('Security settings')"><div class="s-icon">🔐</div><div class="s-label">Security</div><div class="s-arrow">›</div></div>
+      <div class="settings-item" onclick="showToast('Help Center')"><div class="s-icon">❓</div><div class="s-label">Help</div><div class="s-arrow">›</div></div>
+      <div class="settings-item" onclick="showToast('About Instagram')"><div class="s-icon">ℹ️</div><div class="s-label">About</div><div class="s-arrow">›</div></div>
+      <button class="settings-logout" onclick="doLogout()">Log out</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ════════════════════════════════════
+//  DATA
+// ════════════════════════════════════
+const ME = {name:'durgesh_dev',full:'Durgesh • Coder 🚀',emoji:'🧑'};
+
+const STORIES = [
+  {name:'Your Story',emoji:'🧑',me:true,bg:'linear-gradient(135deg,#667eea,#764ba2)',seen:false},
+  {name:'Manisha',emoji:'👩',bg:'linear-gradient(135deg,#f093fb,#f5576c)',seen:false},
+  {name:'Gayatri',emoji:'🧔',bg:'linear-gradient(135deg,#4facfe,#00f2fe)',seen:false},
+  {name:'Asmita_99',emoji:'👩‍🦱',bg:'linear-gradient(135deg,#43e97b,#38f9d7)',seen:true},
+  {name:'Jon',emoji:'👨‍💻',bg:'linear-gradient(135deg,#fa709a,#fee140)',seen:false},
+  {name:'Kavita',emoji:'👩‍🎨',bg:'linear-gradient(135deg,#a18cd1,#fbc2eb)',seen:true},
+  {name:'Harshada',emoji:'🧑‍🎤',bg:'linear-gradient(135deg,#ffecd2,#fcb69f)',seen:false},
+  {name:'neha.ig',emoji:'👩‍💼',bg:'linear-gradient(135deg,#a1c4fd,#c2e9fb)',seen:false},
+];
+
+const POSTS = [
+  {id:1,user:'priya_k',emoji:'👩',loc:'Mumbai, India',
+   bg:'linear-gradient(135deg,#f093fb 0%,#f5576c 100%)',
+   postEmoji:'🌸',likes:1423,
+   caption:'Beautiful day in Mumbai! 🌸✨ Life is short, enjoy every moment.',
+   tags:['#mumbai','#india','#beautiful','#travel'],
+   comments:[{u:'rahul.ig',t:'So pretty! 😍',time:'1h'},{u:'anjali_99',t:'Love this! 💕',time:'45m'},{u:'dev_ravi',t:'Wow 🤩',time:'20m'}],
+   time:'2 HOURS AGO',liked:false,saved:false,followed:true},
+  {id:2,user:'dev_ravi',emoji:'👨‍💻',loc:'Bangalore, India',
+   bg:'linear-gradient(135deg,#4facfe 0%,#00f2fe 100%)',
+   postEmoji:'💻',likes:892,
+   caption:'Late night coding sessions hit different 💻🔥 Building something amazing!',
+   tags:['#coding','#webdev','#javascript','#html'],
+   comments:[{u:'vikas123',t:'Bro same 😂',time:'3h'},{u:'neha.ig',t:'Night owl! 🦉',time:'2h'}],
+   time:'4 HOURS AGO',liked:false,saved:false,followed:false},
+  {id:3,user:'anjali_99',emoji:'👩‍🦱',loc:'Goa, India',
+   bg:'linear-gradient(135deg,#43e97b 0%,#38f9d7 100%)',
+   postEmoji:'🌊',likes:3201,
+   caption:'Goa vibes forever 🌊🏖️ Nothing beats the sound of waves.',
+   tags:['#goa','#beach','#india','#travel','#paradise'],
+   comments:[{u:'priya_k',t:'I need to visit! 😭',time:'5h'},{u:'rahul.ig',t:'Goals! 🙌',time:'4h'},{u:'sunita_m',t:'So beautiful 🏖️',time:'3h'}],
+   time:'6 HOURS AGO',liked:true,saved:true,followed:true},
+  {id:4,user:'sunita_m',emoji:'👩‍🎨',loc:'Delhi, India',
+   bg:'linear-gradient(135deg,#fa709a 0%,#fee140 100%)',
+   postEmoji:'🎨',likes:567,
+   caption:'New painting done! 🎨🖌️ Art is how I express my soul.',
+   tags:['#art','#artist','#painting','#creative'],
+   comments:[{u:'neha.ig',t:'This is amazing! 🎨',time:'7h'},{u:'dev_ravi',t:'So talented!',time:'6h'}],
+   time:'8 HOURS AGO',liked:false,saved:false,followed:false},
+  {id:5,user:'vikas123',emoji:'🧑‍🎤',loc:'Pune, India',
+   bg:'linear-gradient(135deg,#a18cd1 0%,#fbc2eb 100%)',
+   postEmoji:'🎵',likes:2110,
+   caption:'New music drop tonight 🎵🎸 Stay tuned! Big announcement coming.',
+   tags:['#music','#artist','#newmusic','#india'],
+   comments:[{u:'priya_k',t:'Can\'t wait! 🎶',time:'10h'},{u:'anjali_99',t:'So excited!! 🥳',time:'9h'}],
+   time:'12 HOURS AGO',liked:false,saved:false,followed:false},
+];
+
+const SUGGESTIONS = [
+  {name:'krishna.art',sub:'Followed by priya_k',emoji:'🎭',following:false},
+  {name:'travel_riya',sub:'New to Instagram',emoji:'✈️',following:false},
+  {name:'foodie_arun',sub:'Suggested for you',emoji:'🍛',following:false},
+  {name:'tech_naina',sub:'Suggested for you',emoji:'📱',following:false},
+  {name:'fitness_ram',sub:'Followed by dev_ravi',emoji:'💪',following:false},
+];
+
+const DM_USERS = [
+  {name:'priya_k',emoji:'👩',online:true,preview:'Hey! How are you? 😊',time:'2m',
+   messages:[{me:false,t:'Hey! How are you? 😊'},{me:true,t:'I\'m great! How about you?'},{me:false,t:'Doing amazing! Loved your latest post 🔥'},{me:true,t:'Thanks so much! 🙏'}]},
+  {name:'anjali_99',emoji:'👩‍🦱',online:true,preview:'Goa was incredible!',time:'15m',
+   messages:[{me:false,t:'Goa was so beautiful 🌊'},{me:true,t:'I know right! I want to go too 😭'},{me:false,t:'You should! Come with us next time'}]},
+  {name:'rahul.ig',emoji:'🧔',online:false,preview:'Bhai kya code kar rha?',time:'1h',
+   messages:[{me:false,t:'Bhai kya code kar rha? 💻'},{me:true,t:'Instagram clone bana rha hoon 😂'},{me:false,t:'Serious?? 🤣 Amazing bro!'}]},
+  {name:'dev_ravi',emoji:'👨‍💻',online:false,preview:'Collaboration?',time:'3h',
+   messages:[{me:false,t:'Hey! Want to collaborate on a project?'},{me:true,t:'Sure! What kind of project?'},{me:false,t:'A full-stack web app 🚀'}]},
+  {name:'sunita_m',emoji:'👩‍🎨',online:true,preview:'Loved your new post!',time:'5h',
+   messages:[{me:false,t:'Loved your new post! 🎨'},{me:true,t:'Thank you so much! ❤️'}]},
+];
+
+const NOTIFS = [
+  {type:'like',user:'priya_k',emoji:'👩',text:'liked your photo.',time:'2m',postEmoji:'🧑',followBtn:false},
+  {type:'follow',user:'krishna.art',emoji:'🎭',text:'started following you.',time:'5m',postEmoji:null,followBtn:true},
+  {type:'comment',user:'rahul.ig',emoji:'🧔',text:'commented: "Amazing post! 🔥"',time:'10m',postEmoji:'🧑',followBtn:false},
+  {type:'like',user:'dev_ravi',emoji:'👨‍💻',text:'liked your photo.',time:'30m',postEmoji:'🧑',followBtn:false},
+  {type:'follow',user:'travel_riya',emoji:'✈️',text:'started following you.',time:'1h',postEmoji:null,followBtn:true},
+  {type:'mention',user:'anjali_99',emoji:'👩‍🦱',text:'mentioned you in a comment.',time:'2h',postEmoji:'🌊',followBtn:false},
+  {type:'like',user:'sunita_m',emoji:'👩‍🎨',text:'liked your photo.',time:'3h',postEmoji:'🧑',followBtn:false},
+];
+
+const REELS_DATA = [
+  {user:'priya_k',emoji:'👩',bg:'linear-gradient(135deg,#f093fb,#f5576c)',bodyEmoji:'🌸',caption:'Mumbai sunsets are the best! 🌅',audio:'Mumbai Vibes - Original',likes:45200,comments:892,followed:false},
+  {user:'dev_ravi',emoji:'👨‍💻',bg:'linear-gradient(135deg,#0f0c29,#302b63,#24243e)',bodyEmoji:'💻',caption:'Coding at 3am hits different 💻🔥',audio:'Lofi Coding - Beats',likes:123000,comments:2341,followed:true},
+  {user:'anjali_99',emoji:'👩‍🦱',bg:'linear-gradient(135deg,#43e97b,#38f9d7)',bodyEmoji:'🌊',caption:'Living my best Goa life 🌊☀️',audio:'Summer Vibes - Original',likes:89000,comments:1205,followed:false},
+  {user:'vikas123',emoji:'🧑‍🎤',bg:'linear-gradient(135deg,#a18cd1,#fbc2eb)',bodyEmoji:'🎵',caption:'New music is coming 🎵✨',audio:'My New Song - Preview',likes:201000,comments:4560,followed:false},
+];
+
+const EXPLORE_TILES = [
+  {bg:'linear-gradient(135deg,#f093fb,#f5576c)',e:'🌸',likes:1423},
+  {bg:'linear-gradient(135deg,#4facfe,#00f2fe)',e:'💻',likes:892},
+  {bg:'linear-gradient(135deg,#43e97b,#38f9d7)',e:'🌊',likes:3201},
+  {bg:'linear-gradient(135deg,#fa709a,#fee140)',e:'🎨',likes:567},
+  {bg:'linear-gradient(135deg,#a18cd1,#fbc2eb)',e:'🎵',likes:2110},
+  {bg:'linear-gradient(135deg,#f77062,#fe5196)',e:'🏔️',likes:1890},
+  {bg:'linear-gradient(135deg,#fddb92,#d1fdff)',e:'🌅',likes:4320},
+  {bg:'linear-gradient(135deg,#a8edea,#fed6e3)',e:'🐶',likes:9876},
+  {bg:'linear-gradient(135deg,#d4fc79,#96e6a1)',e:'🌿',likes:765},
+  {bg:'linear-gradient(135deg,#fccb90,#d57eeb)',e:'🍛',likes:3421},
+  {bg:'linear-gradient(135deg,#e0c3fc,#8ec5fc)',e:'✈️',likes:6789},
+  {bg:'linear-gradient(135deg,#f5f7fa,#c3cfe2)',e:'📸',likes:432},
+];
+
+const PROFILES = {
+  'durgesh_dev':{emoji:'🧑',name:'Durgesh',bio:'💻 Coder | 🚀 Learning everyday | Building cool things with HTML CSS JS',link:'github.com/durgesh',posts:12,followers:342,following:189,isMe:true,
+    grid:['🧑','💻','🌟','🎮','📱','🔥','✨','🏆','🎯']},
+  'priya_k':{emoji:'👩',name:'Priya Kapoor',bio:'🌸 Mumbai girl | 📸 Photographer | ✈️ Travel lover',link:'priyakapoor.in',posts:234,followers:15200,following:892,isMe:false,
+    grid:['🌸','🌅','🏙️','🌺','📸','🌃','🌊','🎭','💐']},
+  'dev_ravi':{emoji:'👨‍💻',name:'Ravi Dev',bio:'💻 Full Stack Developer | ☕ Coffee addict | Building the future',link:'ravidev.io',posts:89,followers:4320,following:234,isMe:false,
+    grid:['💻','⚡','🔥','🖥️','📱','🛠️','🚀','💡','⌨️']},
+};
+
+// ════════════════════════════════════
+//  STATE
+// ════════════════════════════════════
+let currentStoryIdx = 0;
+let storyTimer = null;
+let currentDMUser = 0;
+let darkMode = false;
+
+// ════════════════════════════════════
+//  LOGIN
+// ════════════════════════════════════
+function doLogin(){
+  const u=document.getElementById('loginUser').value.trim();
+  if(!u){showToast('Enter username');return;}
+  document.getElementById('loginScreen').classList.remove('active');
+  document.getElementById('appScreen').classList.add('active');
+  init();
+}
+function doLogout(){
+  closeModal('settingsModal');
+  document.getElementById('appScreen').classList.remove('active');
+  document.getElementById('loginScreen').classList.add('active');
+  showToast('Logged out!');
+}
+
+// ════════════════════════════════════
+//  INIT
+// ════════════════════════════════════
+function init(){
+  renderStories();
+  renderPosts();
+  renderSuggestions();
+  renderDMUsers();
+  renderNotifs();
+  renderExplore();
+  renderReels();
+}
+
+// ════════════════════════════════════
+//  STORIES
+// ════════════════════════════════════
+function renderStories(){
+  const bar = document.getElementById('storiesBar');
+  bar.innerHTML = STORIES.map((s,i)=>`
+    <div class="story-item" onclick="openStory(${i})">
+      <div class="story-ring ${s.seen?'seen':'has-story'}">
+        <div class="story-avatar">
+          ${s.me?`<span>${s.emoji}</span><div class="add-story-btn">+</div>`:s.emoji}
+        </div>
+      </div>
+      <span class="story-name">${s.me?'Your Story':s.name}</span>
+    </div>`).join('');
+}
+
+function openStory(idx){
+  currentStoryIdx=idx;
+  const sv=document.getElementById('storyViewer');
+  sv.classList.add('open');
+  loadStory();
+}
+function loadStory(){
+  const s=STORIES[currentStoryIdx];
+  STORIES[currentStoryIdx].seen=true;
+  document.getElementById('svAvi').textContent=s.emoji;
+  document.getElementById('svName').textContent=s.name;
+  document.getElementById('svBody').style.background=s.bg;
+  document.getElementById('svBody').textContent=s.emoji;
+  // progress bars
+  const barsEl=document.getElementById('svBars');
+  barsEl.innerHTML=STORIES.map((_,i)=>`<div class="sv-bar"><div class="sv-bar-fill" id="svFill${i}" style="width:${i<currentStoryIdx?'100%':'0%'}"></div></div>`).join('');
+  clearTimeout(storyTimer);
+  const fill=document.getElementById(`svFill${currentStoryIdx}`);
+  if(fill){fill.style.width='100%';}
+  storyTimer=setTimeout(()=>nextStory(),5000);
+  renderStories();
+}
+function nextStory(){
+  if(currentStoryIdx<STORIES.length-1){currentStoryIdx++;loadStory();}
+  else closeStory();
+}
+function prevStory(){
+  if(currentStoryIdx>0){currentStoryIdx--;loadStory();}
+}
+function closeStory(){
+  document.getElementById('storyViewer').classList.remove('open');
+  clearTimeout(storyTimer);
+}
+
+// ════════════════════════════════════
+//  POSTS
+// ════════════════════════════════════
+function renderPosts(){
+  document.getElementById('feedPosts').innerHTML=POSTS.map(p=>buildPost(p)).join('');
+}
+function buildPost(p){
+  return`<div class="post" id="post-${p.id}">
+    <div class="post-header">
+      <div class="post-avatar-wrap ${p.followed?'active':'inactive'}" onclick="openProfileModal('${p.user}')">
+        <div class="post-avi">${p.emoji}</div>
+      </div>
+      <div class="post-meta">
+        <div class="post-uname" onclick="openProfileModal('${p.user}')">${p.user}</div>
+        <div class="post-loc">${p.loc}</div>
+      </div>
+      <button class="post-more-btn" onclick="postMoreMenu(${p.id})">•••</button>
+    </div>
+    <div class="post-img-wrap" ondblclick="likePost(${p.id},true)">
+      <div class="bg" style="background:${p.bg}">${p.postEmoji}</div>
+      <div class="heart-pop" id="hp${p.id}">❤️</div>
+    </div>
+    <div class="post-actions">
+      <button class="act-btn ${p.liked?'liked':''}" id="likeBtn${p.id}" onclick="likePost(${p.id},false)" title="Like">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="${p.liked?'#ed4956':'none'}" stroke="${p.liked?'#ed4956':'currentColor'}" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+      </button>
+      <button class="act-btn" onclick="focusComment(${p.id})" title="Comment">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      </button>
+      <button class="act-btn" onclick="showToast('Link copied!')" title="Share">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+      <div class="spacer"></div>
+      <button class="act-btn ${p.saved?'saved':''}" id="saveBtn${p.id}" onclick="savePost(${p.id})" title="Save">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="${p.saved?'currentColor':'none'}" stroke="currentColor" stroke-width="2"><polygon points="19 21 12 16 5 21 5 3 19 3 19 21"/></svg>
+      </button>
+    </div>
+    <div class="post-likes" id="likes${p.id}">${p.likes.toLocaleString()} likes</div>
+    <div class="post-caption"><span class="uname" onclick="openProfileModal('${p.user}')">${p.user}</span>${p.caption}<span class="more" onclick="showToast('Full caption')" style="display:${p.caption.length>60?'':'none'}"> more</span></div>
+    <div class="post-tags">${p.tags.map(t=>`<span>${t}</span>`).join('')}</div>
+    <div class="view-comments" onclick="toggleComments(${p.id})">View all ${p.comments.length} comments</div>
+    <div class="comment-list" id="clist${p.id}" style="display:none">
+      ${p.comments.map(c=>`<div class="c"><span class="cu" onclick="openProfileModal('${c.u}')">${c.u}</span>${c.t} <span style="color:var(--gray);font-size:11px;">${c.time}</span></div>`).join('')}
+    </div>
+    <div class="post-time">${p.time}</div>
+    <div class="comment-input-row">
+      <span class="emoji-pick" onclick="insertEmoji(${p.id})">😊</span>
+      <input type="text" id="cinput${p.id}" placeholder="Add a comment…" oninput="toggleCBtn(${p.id})" onkeydown="if(event.key==='Enter')addComment(${p.id})">
+      <button class="post-btn" id="cbtn${p.id}" onclick="addComment(${p.id})">Post</button>
+    </div>
+  </div>`;
+}
+
+function likePost(id,dbl){
+  const p=POSTS.find(x=>x.id===id);
+  if(dbl&&p.liked){return;}
+  p.liked=!p.liked;
+  p.likes+=p.liked?1:-1;
+  const btn=document.getElementById(`likeBtn${id}`);
+  const svg=btn.querySelector('svg');
+  if(p.liked){
+    btn.classList.add('liked');
+    svg.setAttribute('fill','#ed4956');svg.setAttribute('stroke','#ed4956');
+    const hp=document.getElementById(`hp${id}`);
+    hp.classList.remove('anim');void hp.offsetWidth;hp.classList.add('anim');
+    showToast('❤️ Liked!');
+  }else{
+    btn.classList.remove('liked');
+    svg.setAttribute('fill','none');svg.setAttribute('stroke','currentColor');
+  }
+  document.getElementById(`likes${id}`).textContent=`${p.likes.toLocaleString()} likes`;
+}
+
+function savePost(id){
+  const p=POSTS.find(x=>x.id===id);
+  p.saved=!p.saved;
+  const btn=document.getElementById(`saveBtn${id}`);
+  const svg=btn.querySelector('svg');
+  if(p.saved){btn.classList.add('saved');svg.setAttribute('fill','currentColor');showToast('🔖 Saved to collection');}
+  else{btn.classList.remove('saved');svg.setAttribute('fill','none');showToast('Removed from saved');}
+}
+
+function toggleComments(id){
+  const el=document.getElementById(`clist${id}`);
+  el.style.display=el.style.display==='none'?'block':'none';
+}
+
+function toggleCBtn(id){
+  const v=document.getElementById(`cinput${id}`).value.trim();
+  document.getElementById(`cbtn${id}`).classList.toggle('on',v.length>0);
+}
+
+function addComment(id){
+  const inp=document.getElementById(`cinput${id}`);
+  const txt=inp.value.trim();
+  if(!txt)return;
+  const p=POSTS.find(x=>x.id===id);
+  p.comments.push({u:'durgesh_dev',t:txt,time:'now'});
+  const list=document.getElementById(`clist${id}`);
+  list.style.display='block';
+  list.innerHTML=p.comments.map(c=>`<div class="c"><span class="cu" onclick="openProfileModal('${c.u}')">${c.u}</span>${c.t} <span style="color:var(--gray);font-size:11px;">${c.time}</span></div>`).join('');
+  document.querySelector(`#post-${id} .view-comments`).textContent=`View all ${p.comments.length} comments`;
+  inp.value='';
+  document.getElementById(`cbtn${id}`).classList.remove('on');
+  showToast('Comment posted! 💬');
+}
+
+function focusComment(id){document.getElementById(`cinput${id}`)?.focus();}
+
+function insertEmoji(id){
+  const emojis=['😊','❤️','🔥','😍','🎉','👏','😂','🙌','✨','💯'];
+  const inp=document.getElementById(`cinput${id}`);
+  inp.value+=emojis[Math.floor(Math.random()*emojis.length)];
+  toggleCBtn(id);inp.focus();
+}
+
+function postMoreMenu(id){
+  const p=POSTS.find(x=>x.id===id);
+  showToast(`Options: Report · Unfollow · Copy link`);
+}
+
+// ════════════════════════════════════
+//  SUGGESTIONS
+// ════════════════════════════════════
+function renderSuggestions(){
+  document.getElementById('sidebarSuggestions').innerHTML=SUGGESTIONS.map((s,i)=>`
+    <div class="suggest-row">
+      <div class="suggest-avi"><div class="suggest-avi-in">${s.emoji}</div></div>
+      <div style="flex:1;min-width:0;cursor:pointer;" onclick="openProfileModal('${s.name}')">
+        <div class="suggest-name">${s.name}</div>
+        <div class="suggest-sub">${s.sub}</div>
+      </div>
+      <button class="suggest-follow ${s.following?'on':''}" id="sf${i}" onclick="toggleSFollow(${i})">${s.following?'Following':'Follow'}</button>
+    </div>`).join('');
+}
+function toggleSFollow(i){
+  SUGGESTIONS[i].following=!SUGGESTIONS[i].following;
+  const btn=document.getElementById(`sf${i}`);
+  btn.textContent=SUGGESTIONS[i].following?'Following':'Follow';
+  btn.classList.toggle('on',SUGGESTIONS[i].following);
+  showToast(SUGGESTIONS[i].following?`Following ${SUGGESTIONS[i].name}!`:`Unfollowed`);
+}
+
+// ════════════════════════════════════
+//  DMs
+// ════════════════════════════════════
+function renderDMUsers(){
+  renderDMList(DM_USERS);
+  loadDMChat(0);
+}
+function renderDMList(users){
+  document.getElementById('dmUserList').innerHTML=users.map((u,i)=>`
+    <div class="dm-user-row ${i===currentDMUser?'sel':''}" onclick="loadDMChat(${DM_USERS.indexOf(u)})">
+      <div class="dm-user-avi">
+        <div class="dm-user-avi-in">${u.emoji}</div>
+        ${u.online?'<div class="dm-online-dot"></div>':''}
+      </div>
+      <div class="dm-user-info">
+        <div class="dm-user-name">${u.name}</div>
+        <div class="dm-user-preview">${u.preview}</div>
+      </div>
+      <div class="dm-user-time">${u.time}</div>
+    </div>`).join('');
+}
+function loadDMChat(idx){
+  currentDMUser=idx;
+  const u=DM_USERS[idx];
+  document.getElementById('dmChatAvi').textContent=u.emoji;
+  document.getElementById('dmChatName').textContent=u.name;
+  document.getElementById('dmMessages').innerHTML=u.messages.map(m=>`
+    <div class="dm-msg ${m.me?'me':'them'}">${m.t}</div>`).join('');
+  document.getElementById('dmMessages').scrollTop=99999;
+  renderDMList(DM_USERS);
+}
+function filterDMs(q){
+  const filtered=DM_USERS.filter(u=>u.name.toLowerCase().includes(q.toLowerCase()));
+  renderDMList(filtered);
+}
+function sendDM(){
+  const inp=document.getElementById('dmInput');
+  const txt=inp.value.trim();
+  if(!txt)return;
+  DM_USERS[currentDMUser].messages.push({me:true,t:txt});
+  DM_USERS[currentDMUser].preview=txt;
+  loadDMChat(currentDMUser);
+  inp.value='';
+  // simulate reply
+  setTimeout(()=>{
+    const replies=['😊','Great!','Haha 😂','That\'s cool!','Tell me more!','❤️','Wow!'];
+    DM_USERS[currentDMUser].messages.push({me:false,t:replies[Math.floor(Math.random()*replies.length)]});
+    loadDMChat(currentDMUser);
+  },1500);
+}
+
+// ════════════════════════════════════
+//  NOTIFICATIONS
+// ════════════════════════════════════
+function renderNotifs(){
+  document.getElementById('notifList').innerHTML=NOTIFS.map((n,i)=>`
+    <div class="notif-row">
+      <div class="notif-avi"><div class="notif-avi-in">${n.emoji}</div></div>
+      <div class="notif-text"><b>${n.user}</b> ${n.text} <span class="notif-time">${n.time}</span></div>
+      ${n.postEmoji?`<div class="notif-post-thumb" style="background:var(--light)">${n.postEmoji}</div>`:''}
+      ${n.followBtn?`<button class="notif-follow-btn" id="nfb${i}" onclick="toggleNotifFollow(${i})">Follow</button>`:''}
+    </div>`).join('');
+}
+function toggleNotifFollow(i){
+  const btn=document.getElementById(`nfb${i}`);
+  const on=btn.textContent==='Following';
+  btn.textContent=on?'Follow':'Following';
+  btn.classList.toggle('on',!on);
+  showToast(on?'Unfollowed':'Following!');
+}
+
+// ════════════════════════════════════
+//  EXPLORE
+// ════════════════════════════════════
+function renderExplore(){
+  document.getElementById('exploreGrid').innerHTML=EXPLORE_TILES.map((t,i)=>`
+    <div class="explore-tile" style="background:${t.bg}" onclick="showToast('❤️ ${t.likes.toLocaleString()} likes')">
+      <span>${t.e}</span>
+      <div class="explore-hover">
+        <span>❤️ ${t.likes.toLocaleString()}</span>
+        <span>💬 ${Math.floor(t.likes/10).toLocaleString()}</span>
+      </div>
+    </div>`).join('');
+  document.getElementById('exploreSearch').addEventListener('input',function(){
+    const q=this.value.toLowerCase();
+    document.querySelectorAll('.explore-tile').forEach(t=>{
+      t.style.display=!q||t.textContent.includes(q)?'flex':'none';
+    });
+  });
+}
+
+// ════════════════════════════════════
+//  REELS
+// ════════════════════════════════════
+function renderReels(){
+  document.getElementById('reelWrap').innerHTML=REELS_DATA.map((r,i)=>`
+    <div class="reel-item" style="background:${r.bg}">
+      <span>${r.bodyEmoji}</span>
+      <div class="reel-overlay">
+        <div class="reel-act">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="0" onclick="reelLike(this,${i})"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          <span>${(r.likes/1000).toFixed(0)}K</span>
+        </div>
+        <div class="reel-act">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="0" onclick="showToast('Comments')"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          <span>${(r.comments/1000).toFixed(1)}K</span>
+        </div>
+        <div class="reel-act">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" onclick="showToast('Shared!')"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="white" stroke="none"/></svg>
+          <span>Share</span>
+        </div>
+        <div class="reel-act">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="0" onclick="showToast('Saved!')"><polygon points="19 21 12 16 5 21 5 3 19 3 19 21"/></svg>
+          <span>Save</span>
+        </div>
+        <div class="reel-act" onclick="showToast('More options')">
+          <span style="font-size:22px;color:white;">•••</span>
+        </div>
+      </div>
+      <div class="reel-info">
+        <div class="ru" style="display:flex;align-items:center;gap:8px;">
+          <span>${r.emoji} ${r.user}</span>
+          <button class="reel-follow-btn ${r.followed?'on':''}" id="rfb${i}" onclick="toggleReelFollow(${i})">${r.followed?'Following':'Follow'}</button>
+        </div>
+        <div class="rc">${r.caption}</div>
+        <div class="reel-audio">
+          <div class="reel-audio-disc">🎵</div>
+          <span>${r.audio}</span>
+        </div>
+      </div>
+    </div>`).join('');
+}
+function openReels(){document.getElementById('reelsScreen').classList.add('open');}
+function closeReels(){document.getElementById('reelsScreen').classList.remove('open');}
+function reelLike(el,i){
+  REELS_DATA[i].liked=!REELS_DATA[i].liked;
+  el.style.fill=REELS_DATA[i].liked?'#ed4956':'white';
+  el.style.stroke=REELS_DATA[i].liked?'#ed4956':'white';
+  showToast(REELS_DATA[i].liked?'❤️ Liked!':'Unliked');
+}
+function toggleReelFollow(i){
+  REELS_DATA[i].followed=!REELS_DATA[i].followed;
+  const btn=document.getElementById(`rfb${i}`);
+  btn.textContent=REELS_DATA[i].followed?'Following':'Follow';
+  btn.classList.toggle('on',REELS_DATA[i].followed);
+  showToast(REELS_DATA[i].followed?'Following!':'Unfollowed');
+}
+
+// ════════════════════════════════════
+//  CREATE POST
+// ════════════════════════════════════
+const EMOJIS_CREATE=['🌸','💻','🌊','🎨','🎵','🏔️','🌅','🐶','🍛','✈️','📸','🌿','🎮','🦋','🌙'];
+let createEmoji=null;
+function pickEmoji(){
+  createEmoji=EMOJIS_CREATE[Math.floor(Math.random()*EMOJIS_CREATE.length)];
+  const grads=['linear-gradient(135deg,#f093fb,#f5576c)','linear-gradient(135deg,#4facfe,#00f2fe)','linear-gradient(135deg,#43e97b,#38f9d7)','linear-gradient(135deg,#fa709a,#fee140)','linear-gradient(135deg,#a18cd1,#fbc2eb)','linear-gradient(135deg,#667eea,#764ba2)'];
+  const g=grads[Math.floor(Math.random()*grads.length)];
+  document.getElementById('createDrop').style.display='none';
+  const form=document.getElementById('createForm');
+  form.style.display='block';
+  const prev=document.getElementById('createPreview');
+  prev.style.background=g;
+  prev.textContent=createEmoji;
+}
+function sharePost(){
+  const cap=document.getElementById('createCaption').value.trim();
+  const loc=document.getElementById('createTags').value.trim();
+  if(!cap){showToast('Write a caption first!');return;}
+  const newPost={
+    id:Date.now(),user:'durgesh_dev',emoji:'🧑',loc:loc||'India',
+    bg:'linear-gradient(135deg,#667eea,#764ba2)',
+    postEmoji:createEmoji||'🧑',likes:0,
+    caption:cap,tags:['#durgesh'],
+    comments:[],time:'just now',liked:false,saved:false,followed:true
+  };
+  POSTS.unshift(newPost);
+  document.getElementById('feedPosts').innerHTML=buildPost(newPost)+document.getElementById('feedPosts').innerHTML;
+  closeModal('createModal');
+  // reset
+  document.getElementById('createDrop').style.display='block';
+  document.getElementById('createForm').style.display='none';
+  document.getElementById('createCaption').value='';
+  document.getElementById('createTags').value='';
+  showToast('🎉 Post shared!');
+  scrollToTop();
+}
+
+// ════════════════════════════════════
+//  PROFILE
+// ════════════════════════════════════
+function openProfileModal(username){
+  const p=PROFILES[username]||{emoji:'👤',name:username,bio:'Instagram user',link:'',posts:0,followers:0,following:0,isMe:false,grid:['📸','📸','📸','📸','📸','📸']};
+  document.getElementById('profileHdName').textContent=username;
+  document.getElementById('profileBody').innerHTML=`
+    <div class="profile-top">
+      <div class="profile-info-row">
+        <div class="profile-big-avi"><div class="profile-big-avi-in">${p.emoji}</div></div>
+        <div class="profile-stats">
+          <div class="profile-stat"><div class="num">${p.posts}</div><div class="label">posts</div></div>
+          <div class="profile-stat" style="cursor:pointer" onclick="showToast('${p.followers.toLocaleString()} followers')"><div class="num">${p.followers.toLocaleString()}</div><div class="label">followers</div></div>
+          <div class="profile-stat" style="cursor:pointer" onclick="showToast('${p.following} following')"><div class="num">${p.following}</div><div class="label">following</div></div>
+        </div>
+      </div>
+      <div class="profile-name">${p.name}</div>
+      <div class="profile-bio">${p.bio}</div>
+      ${p.link?`<div class="profile-link">🔗 ${p.link}</div>`:''}
+      <div class="profile-btns">
+        ${p.isMe
+          ?`<button class="profile-edit-btn" onclick="showToast('Edit Profile')">Edit profile</button>
+            <button class="profile-share-btn" onclick="showToast('Share profile')">Share profile</button>`
+          :`<button class="profile-follow-btn" id="pFollowBtn" onclick="toggleProfileFollow('${username}')">Follow</button>
+            <button class="profile-edit-btn" onclick="openModal('dmModal');closeModal('profileModal')">Message</button>`
+        }
+      </div>
+    </div>
+    <div class="profile-tab-bar">
+      <button class="profile-tab active">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Posts
+      </button>
+      <button class="profile-tab" onclick="showToast('Reels tab')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
+        Reels
+      </button>
+      <button class="profile-tab" onclick="showToast('Tagged posts')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+        Tagged
+      </button>
+    </div>
+    <div class="profile-grid">${(p.grid||[]).map(e=>{
+      const grads=['linear-gradient(135deg,#f093fb,#f5576c)','linear-gradient(135deg,#4facfe,#00f2fe)','linear-gradient(135deg,#43e97b,#38f9d7)','linear-gradient(135deg,#fa709a,#fee140)','linear-gradient(135deg,#a18cd1,#fbc2eb)','linear-gradient(135deg,#667eea,#764ba2)'];
+      const g=grads[Math.floor(Math.random()*grads.length)];
+      return`<div class="profile-thumb" style="background:${g}" onclick="showToast('View post')">${e}</div>`;
+    }).join('')}</div>`;
+  openModal('profileModal');
+}
+function toggleProfileFollow(u){
+  const btn=document.getElementById('pFollowBtn');
+  if(!btn)return;
+  const on=btn.textContent==='Following';
+  btn.textContent=on?'Follow':'Following';
+  btn.style.background=on?'var(--blue)':'var(--light)';
+  btn.style.color=on?'#fff':'var(--text)';
+  showToast(on?`Unfollowed ${u}`:`Following ${u}! 🎉`);
+}
+
+// ════════════════════════════════════
+//  DARK MODE
+// ════════════════════════════════════
+function toggleDark(){
+  darkMode=!darkMode;
+  document.body.classList.toggle('dark',darkMode);
+  document.getElementById('darkToggle').classList.toggle('on',darkMode);
+  showToast(darkMode?'🌙 Dark mode on':'☀️ Light mode on');
+}
+
+// ════════════════════════════════════
+//  MODALS
+// ════════════════════════════════════
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.overlay').forEach(o=>{
+  o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');});
+});
+
+// ════════════════════════════════════
+//  UTILITIES
+// ════════════════════════════════════
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(t._t);
+  t._t=setTimeout(()=>t.classList.remove('show'),2200);
+}
+function setTab(tab,btn){
+  document.querySelectorAll('.bn-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function scrollToTop(){window.scrollTo({top:0,behavior:'smooth'});}
+
+// allow login on Enter
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&document.getElementById('loginScreen').classList.contains('active'))doLogin();
+});
+</script>
+</body>
+</html>

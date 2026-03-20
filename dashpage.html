@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instagram</title>
+<link href="https://fonts.googleapis.com/css2?family=Grand+Hotel&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --pink: #e1306c;
+    --purple: #833ab4;
+    --orange: #fd1d1d;
+    --grad: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    --bg: #fafafa;
+    --white: #ffffff;
+    --border: #dbdbdb;
+    --text: #262626;
+    --gray: #8e8e8e;
+    --light: #efefef;
+  }
+
+  body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); }
+
+  /* ===== TOP NAV ===== */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: var(--white); border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 20px; max-width: 935px; margin: 0 auto;
+    width: 100%;
+  }
+  .nav-logo {
+    font-family: 'Grand Hotel', cursive; font-size: 28px;
+    background: var(--grad); -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; cursor: pointer;
+  }
+  .nav-search {
+    display: flex; align-items: center; background: var(--light);
+    border-radius: 8px; padding: 6px 12px; gap: 8px;
+  }
+  .nav-search input {
+    border: none; background: transparent; outline: none;
+    font-family: 'Nunito', sans-serif; font-size: 14px; width: 200px;
+  }
+  .nav-icons { display: flex; gap: 18px; align-items: center; }
+  .nav-icons svg { cursor: pointer; transition: transform 0.2s; }
+  .nav-icons svg:hover { transform: scale(1.15); }
+
+  /* ===== LAYOUT ===== */
+  .layout {
+    max-width: 935px; margin: 70px auto 0; padding: 20px 10px;
+    display: grid; grid-template-columns: 1fr 320px; gap: 28px;
+  }
+
+  /* ===== STORIES ===== */
+  .stories-wrap {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px 4px; margin-bottom: 24px;
+    display: flex; overflow-x: auto; gap: 16px; scrollbar-width: none;
+  }
+  .stories-wrap::-webkit-scrollbar { display: none; }
+  .story {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 6px; cursor: pointer; min-width: 66px;
+  }
+  .story-ring {
+    width: 60px; height: 60px; border-radius: 50%;
+    background: var(--grad); padding: 2.5px;
+    transition: transform 0.2s;
+  }
+  .story-ring:hover { transform: scale(1.08); }
+  .story-img {
+    width: 100%; height: 100%; border-radius: 50%;
+    border: 2.5px solid white; object-fit: cover;
+    background: var(--light);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; overflow: hidden;
+  }
+  .story-name { font-size: 11px; color: var(--text); max-width: 64px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  /* ===== POST ===== */
+  .post {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 10px; margin-bottom: 24px;
+    animation: fadeIn 0.4s ease;
+  }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  .post-header {
+    display: flex; align-items: center; padding: 12px 14px;
+    justify-content: space-between;
+  }
+  .post-user { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+  .post-avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: var(--grad); padding: 2px;
+  }
+  .post-avatar-inner {
+    width: 100%; height: 100%; border-radius: 50%;
+    border: 2px solid white; background: var(--light);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; overflow: hidden;
+  }
+  .post-username { font-weight: 700; font-size: 14px; }
+  .post-location { font-size: 12px; color: var(--gray); }
+  .post-more { cursor: pointer; font-size: 20px; color: var(--gray); }
+
+  .post-image {
+    width: 100%; aspect-ratio: 1/1;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 80px; cursor: pointer; overflow: hidden; position: relative;
+  }
+  .post-image img { width: 100%; height: 100%; object-fit: cover; }
+  .post-image-emoji { font-size: 80px; user-select: none; }
+
+  .heart-anim {
+    position: absolute; font-size: 90px;
+    opacity: 0; transform: scale(0);
+    pointer-events: none; transition: none;
+  }
+  .heart-anim.pop {
+    animation: heartPop 0.8s ease forwards;
+  }
+  @keyframes heartPop {
+    0% { opacity: 0; transform: scale(0); }
+    30% { opacity: 1; transform: scale(1.3); }
+    60% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0.8); }
+  }
+
+  .post-actions { display: flex; align-items: center; padding: 8px 14px; gap: 14px; }
+  .post-actions .right { margin-left: auto; }
+  .action-btn {
+    background: none; border: none; cursor: pointer;
+    padding: 4px; border-radius: 50%; transition: transform 0.15s;
+    display: flex; align-items: center;
+  }
+  .action-btn:hover { transform: scale(1.2); }
+  .action-btn:active { transform: scale(0.9); }
+  .action-btn svg { display: block; }
+
+  .post-likes { padding: 0 14px 4px; font-weight: 700; font-size: 14px; }
+  .post-caption { padding: 0 14px 6px; font-size: 14px; line-height: 1.5; }
+  .post-caption span { font-weight: 700; margin-right: 6px; }
+  .post-comments-link { padding: 0 14px 4px; font-size: 14px; color: var(--gray); cursor: pointer; }
+  .post-time { padding: 0 14px 12px; font-size: 10px; color: var(--gray); text-transform: uppercase; letter-spacing: 0.5px; }
+
+  .post-comment-box {
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; padding: 10px 14px; gap: 10px;
+  }
+  .post-comment-box input {
+    flex: 1; border: none; outline: none; font-family: 'Nunito', sans-serif;
+    font-size: 14px; background: transparent;
+  }
+  .post-comment-box button {
+    background: none; border: none; cursor: pointer;
+    font-weight: 700; font-size: 14px; color: #0095f6;
+    opacity: 0.4; transition: opacity 0.2s;
+  }
+  .post-comment-box button.active { opacity: 1; }
+
+  /* ===== SIDEBAR ===== */
+  .sidebar { position: sticky; top: 82px; height: fit-content; }
+
+  .sidebar-profile {
+    display: flex; align-items: center; gap: 14px; margin-bottom: 22px;
+  }
+  .sidebar-avatar {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--grad); padding: 2.5px; cursor: pointer;
+  }
+  .sidebar-avatar-inner {
+    width: 100%; height: 100%; border-radius: 50%;
+    border: 2.5px solid white; background: var(--light);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; overflow: hidden;
+  }
+  .sidebar-username { font-weight: 700; font-size: 14px; }
+  .sidebar-name { color: var(--gray); font-size: 13px; }
+  .sidebar-switch { margin-left: auto; color: #0095f6; font-size: 13px; font-weight: 700; cursor: pointer; }
+
+  .sidebar-suggest-title {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 14px;
+  }
+  .sidebar-suggest-title span:first-child { color: var(--gray); font-weight: 700; font-size: 13px; }
+  .sidebar-suggest-title span:last-child { font-weight: 700; font-size: 12px; cursor: pointer; }
+
+  .suggest-user {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 12px;
+  }
+  .suggest-avatar {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: var(--grad); padding: 2px; flex-shrink: 0;
+  }
+  .suggest-avatar-inner {
+    width: 100%; height: 100%; border-radius: 50%;
+    border: 2px solid white; background: var(--light);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+  .suggest-info { flex: 1; }
+  .suggest-name { font-weight: 700; font-size: 13px; }
+  .suggest-sub { color: var(--gray); font-size: 11px; }
+  .follow-btn {
+    color: #0095f6; font-weight: 700; font-size: 13px;
+    background: none; border: none; cursor: pointer;
+    transition: color 0.2s;
+  }
+  .follow-btn.following { color: var(--gray); }
+
+  .sidebar-footer { margin-top: 20px; color: var(--gray); font-size: 11px; line-height: 1.8; }
+  .sidebar-footer a { color: var(--gray); text-decoration: none; }
+  .sidebar-footer a:hover { text-decoration: underline; }
+
+  /* ===== MODAL (View Post) ===== */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.7); z-index: 200;
+    align-items: center; justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-box {
+    background: var(--white); border-radius: 4px;
+    display: flex; max-width: 900px; width: 90%; max-height: 90vh;
+    overflow: hidden; animation: modalIn 0.25s ease;
+  }
+  @keyframes modalIn { from { transform: scale(0.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .modal-img { width: 55%; background: #000; display: flex; align-items: center; justify-content: center; font-size: 100px; }
+  .modal-side { width: 45%; display: flex; flex-direction: column; }
+  .modal-close {
+    position: fixed; top: 20px; right: 20px;
+    background: none; border: none; cursor: pointer; color: white; font-size: 32px;
+  }
+
+  /* ===== BOTTOM NAV (Mobile) ===== */
+  .bottom-nav {
+    display: none; position: fixed; bottom: 0; left: 0; right: 0;
+    background: var(--white); border-top: 1px solid var(--border);
+    padding: 10px 0; justify-content: space-around; z-index: 100;
+  }
+  .bottom-nav svg { cursor: pointer; }
+
+  @media (max-width: 768px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .bottom-nav { display: flex; }
+    .nav-search { display: none; }
+    body { padding-bottom: 60px; }
+  }
+
+  /* ===== LIKED animation ===== */
+  .liked-heart { fill: #ed4956 !important; stroke: #ed4956 !important; }
+
+  /* Notification toast */
+  .toast {
+    position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+    background: #333; color: white; padding: 10px 20px; border-radius: 20px;
+    font-size: 13px; z-index: 999; opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav>
+  <div class="nav-logo">Instagram</div>
+  <div class="nav-search">
+    <svg width="16" height="16" fill="none" stroke="#8e8e8e" stroke-width="2" viewBox="0 0 24 24">
+      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </svg>
+    <input type="text" placeholder="Search" id="searchInput">
+  </div>
+  <div class="nav-icons">
+    <!-- Home -->
+    <svg width="24" height="24" fill="none" stroke="var(--text)" stroke-width="2" viewBox="0 0 24 24" onclick="showToast('Home')">
+      <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+    </svg>
+    <!-- DM -->
+    <svg width="24" height="24" fill="none" stroke="var(--text)" stroke-width="2" viewBox="0 0 24 24" onclick="showToast('Messages')">
+      <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+    </svg>
+    <!-- Add -->
+    <svg width="24" height="24" fill="none" stroke="var(--text)" stroke-width="2" viewBox="0 0 24 24" onclick="showToast('Create Post')">
+      <rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
+    </svg>
+    <!-- Explore -->
+    <svg width="24" height="24" fill="none" stroke="var(--text)" stroke-width="2" viewBox="0 0 24 24" onclick="showToast('Explore')">
+      <circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+    </svg>
+    <!-- Profile -->
+    <div style="width:28px;height:28px;border-radius:50%;background:var(--grad);padding:2px;cursor:pointer" onclick="showToast('Profile')">
+      <div style="width:100%;height:100%;border-radius:50%;border:2px solid white;background:var(--light);display:flex;align-items:center;justify-content:center;font-size:13px;">🧑</div>
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN LAYOUT -->
+<div class="layout">
+  <!-- FEED -->
+  <div class="feed">
+
+    <!-- STORIES -->
+    <div class="stories-wrap" id="storiesWrap"></div>
+
+    <!-- POSTS -->
+    <div id="postsContainer"></div>
+
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-profile">
+      <div class="sidebar-avatar">
+        <div class="sidebar-avatar-inner">🧑</div>
+      </div>
+      <div>
+        <div class="sidebar-username">durgesh_dev</div>
+        <div class="sidebar-name">Durgesh • New Coder 🚀</div>
+      </div>
+      <span class="sidebar-switch">Switch</span>
+    </div>
+
+    <div class="sidebar-suggest-title">
+      <span>Suggestions For You</span>
+      <span>See All</span>
+    </div>
+
+    <div id="suggestions"></div>
+
+    <div class="sidebar-footer">
+      <div>
+        <a href="#">About</a> · <a href="#">Help</a> · <a href="#">Press</a> · <a href="#">API</a> ·
+        <a href="#">Jobs</a> · <a href="#">Privacy</a> · <a href="#">Terms</a>
+      </div>
+      <div style="margin-top:6px;">© 2026 INSTAGRAM FROM META</div>
+    </div>
+  </aside>
+</div>
+
+<!-- BOTTOM NAV (Mobile) -->
+<div class="bottom-nav">
+  <svg width="24" height="24" fill="none" stroke="var(--text)" stroke-width="2" viewBox="0 0 24 24">
+    <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+  </svg>
+  <svg width="24" height="24" fill="none" stroke="var(--text)" stroke-width="2" viewBox="0 0 24 24">
+    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+  </svg>
+  <svg width="24" height="24" fill="none" stroke="var(--text)" stroke-width="2" viewBox="0 0 24 24">
+    <rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
+  </svg>
+  <svg width="24" height="24" fill="none" stroke="var(--text)" stroke-width="2" viewBox="0 0 24 24">
+    <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+  </svg>
+  <div style="width:24px;height:24px;border-radius:50%;background:var(--grad);padding:1.5px;">
+    <div style="width:100%;height:100%;border-radius:50%;border:1.5px solid white;background:#eee;display:flex;align-items:center;justify-content:center;font-size:12px;">🧑</div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== DATA =====
+const stories = [
+  { name: 'Your Story', emoji: '🧑', isYou: true },
+  { name: 'priya_k', emoji: '👩' },
+  { name: 'rahul.ig', emoji: '🧔' },
+  { name: 'anjali_99', emoji: '👩‍🦱' },
+  { name: 'dev_ravi', emoji: '👨‍💻' },
+  { name: 'sunita_m', emoji: '👩‍🎨' },
+  { name: 'vikas123', emoji: '🧑‍🎤' },
+  { name: 'neha.ig', emoji: '👩‍💼' },
+];
+
+const posts = [
+  {
+    id: 1, user: 'priya_k', location: 'Mumbai, India', emoji: '🌸',
+    bg: 'linear-gradient(135deg,#f093fb,#f5576c)',
+    likes: 1423, caption: 'Beautiful day in Mumbai! 🌸✨',
+    comments: ['rahul.ig: So pretty! 😍', 'anjali_99: Love this! 💕'],
+    time: '2 HOURS AGO', liked: false, saved: false,
+  },
+  {
+    id: 2, user: 'dev_ravi', location: 'Bangalore, India', emoji: '💻',
+    bg: 'linear-gradient(135deg,#4facfe,#00f2fe)',
+    likes: 892, caption: 'Late night coding sessions hit different 💻🔥 #webdev #coding',
+    comments: ['vikas123: Bro same! 😂', 'neha.ig: Night owl coder 🦉'],
+    time: '4 HOURS AGO', liked: false, saved: false,
+  },
+  {
+    id: 3, user: 'anjali_99', location: 'Goa, India', emoji: '🌊',
+    bg: 'linear-gradient(135deg,#43e97b,#38f9d7)',
+    likes: 3201, caption: 'Goa vibes forever 🌊🏖️ #goa #beach #india',
+    comments: ['priya_k: I need to visit! 😭', 'rahul.ig: Goals! 🙌'],
+    time: '6 HOURS AGO', liked: false, saved: false,
+  },
+  {
+    id: 4, user: 'sunita_m', location: 'Delhi, India', emoji: '🎨',
+    bg: 'linear-gradient(135deg,#fa709a,#fee140)',
+    likes: 567, caption: 'New painting done! What do you think? 🎨🖌️ #art #artist',
+    comments: ['neha.ig: This is amazing! 🎨', 'dev_ravi: Talented!'],
+    time: '8 HOURS AGO', liked: false, saved: false,
+  },
+];
+
+const suggestions = [
+  { name: 'vikas_codes', sub: 'Followed by rahul.ig', emoji: '👨‍💻' },
+  { name: 'travel_riya', sub: 'New to Instagram', emoji: '✈️' },
+  { name: 'foodie_arun', sub: 'Suggested for you', emoji: '🍛' },
+  { name: 'krishna.art', sub: 'Followed by priya_k', emoji: '🎭' },
+  { name: 'tech_naina', sub: 'Suggested for you', emoji: '📱' },
+];
+
+// ===== RENDER STORIES =====
+function renderStories() {
+  const wrap = document.getElementById('storiesWrap');
+  wrap.innerHTML = stories.map(s => `
+    <div class="story" onclick="viewStory('${s.name}')">
+      <div class="story-ring">
+        <div class="story-img">${s.emoji}</div>
+      </div>
+      <span class="story-name">${s.isYou ? 'Your Story' : s.name}</span>
+    </div>
+  `).join('');
+}
+
+// ===== RENDER POSTS =====
+function renderPosts() {
+  const container = document.getElementById('postsContainer');
+  container.innerHTML = posts.map(p => `
+    <div class="post" id="post-${p.id}">
+      <div class="post-header">
+        <div class="post-user">
+          <div class="post-avatar">
+            <div class="post-avatar-inner">${p.emoji}</div>
+          </div>
+          <div>
+            <div class="post-username">${p.user}</div>
+            <div class="post-location">${p.location}</div>
+          </div>
+        </div>
+        <div class="post-more" onclick="showToast('Options')">•••</div>
+      </div>
+
+      <div class="post-image" style="background:${p.bg}" ondblclick="likePost(${p.id}, this)">
+        <div class="post-image-emoji">${p.emoji}</div>
+        <div class="heart-anim" id="heartAnim-${p.id}">❤️</div>
+      </div>
+
+      <div class="post-actions">
+        <button class="action-btn" onclick="likePost(${p.id})" id="likeBtn-${p.id}" title="Like">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2" id="likeIcon-${p.id}">
+            <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+          </svg>
+        </button>
+        <button class="action-btn" onclick="showToast('Comment')" title="Comment">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2">
+            <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+          </svg>
+        </button>
+        <button class="action-btn" onclick="showToast('Share')" title="Share">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </button>
+        <button class="action-btn right" onclick="savePost(${p.id})" id="saveBtn-${p.id}" title="Save">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2" id="saveIcon-${p.id}">
+            <polygon points="19 21 12 16 5 21 5 3 19 3 19 21"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="post-likes" id="likes-${p.id}">${p.likes.toLocaleString()} likes</div>
+      <div class="post-caption"><span>${p.user}</span>${p.caption}</div>
+      <div class="post-comments-link" onclick="showComments(${p.id})">View all ${p.comments.length} comments</div>
+      <div id="comments-${p.id}" style="display:none;padding:0 14px 6px;">
+        ${p.comments.map(c => `<div style="font-size:13px;margin-bottom:4px;">${c}</div>`).join('')}
+      </div>
+      <div class="post-time">${p.time}</div>
+      <div class="post-comment-box">
+        <span style="font-size:20px;cursor:pointer" onclick="showToast('Emoji')">😊</span>
+        <input type="text" placeholder="Add a comment…" id="commentInput-${p.id}"
+          oninput="togglePostBtn(${p.id})"
+          onkeydown="if(event.key==='Enter')addComment(${p.id})">
+        <button id="commentBtn-${p.id}" onclick="addComment(${p.id})">Post</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ===== RENDER SIDEBAR SUGGESTIONS =====
+function renderSuggestions() {
+  const el = document.getElementById('suggestions');
+  el.innerHTML = suggestions.map((s, i) => `
+    <div class="suggest-user">
+      <div class="suggest-avatar">
+        <div class="suggest-avatar-inner">${s.emoji}</div>
+      </div>
+      <div class="suggest-info">
+        <div class="suggest-name">${s.name}</div>
+        <div class="suggest-sub">${s.sub}</div>
+      </div>
+      <button class="follow-btn" id="followBtn-${i}" onclick="toggleFollow(${i})">Follow</button>
+    </div>
+  `).join('');
+}
+
+// ===== LIKE POST =====
+function likePost(id, imgEl) {
+  const post = posts.find(p => p.id === id);
+  post.liked = !post.liked;
+  post.likes += post.liked ? 1 : -1;
+
+  const icon = document.getElementById(`likeIcon-${id}`);
+  const likesEl = document.getElementById(`likes-${id}`);
+
+  if (post.liked) {
+    icon.setAttribute('fill', '#ed4956');
+    icon.setAttribute('stroke', '#ed4956');
+    // Show heart anim
+    const anim = document.getElementById(`heartAnim-${id}`);
+    anim.classList.remove('pop');
+    void anim.offsetWidth;
+    anim.classList.add('pop');
+  } else {
+    icon.setAttribute('fill', 'none');
+    icon.setAttribute('stroke', 'var(--text)');
+  }
+  likesEl.textContent = `${post.likes.toLocaleString()} likes`;
+}
+
+// ===== SAVE POST =====
+function savePost(id) {
+  const post = posts.find(p => p.id === id);
+  post.saved = !post.saved;
+  const icon = document.getElementById(`saveIcon-${id}`);
+  if (post.saved) {
+    icon.setAttribute('fill', 'var(--text)');
+    showToast('Post saved!');
+  } else {
+    icon.setAttribute('fill', 'none');
+    showToast('Removed from saved');
+  }
+}
+
+// ===== COMMENTS =====
+function showComments(id) {
+  const el = document.getElementById(`comments-${id}`);
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+function togglePostBtn(id) {
+  const input = document.getElementById(`commentInput-${id}`);
+  const btn = document.getElementById(`commentBtn-${id}`);
+  btn.classList.toggle('active', input.value.trim().length > 0);
+}
+
+function addComment(id) {
+  const input = document.getElementById(`commentInput-${id}`);
+  const text = input.value.trim();
+  if (!text) return;
+
+  const post = posts.find(p => p.id === id);
+  post.comments.push(`durgesh_dev: ${text}`);
+
+  const commentsEl = document.getElementById(`comments-${id}`);
+  commentsEl.style.display = 'block';
+  commentsEl.innerHTML = post.comments.map(c =>
+    `<div style="font-size:13px;margin-bottom:4px;">${c}</div>`
+  ).join('');
+
+  document.querySelector(`#post-${id} .post-comments-link`).textContent =
+    `View all ${post.comments.length} comments`;
+
+  input.value = '';
+  document.getElementById(`commentBtn-${id}`).classList.remove('active');
+  showToast('Comment posted!');
+}
+
+// ===== FOLLOW =====
+function toggleFollow(i) {
+  const btn = document.getElementById(`followBtn-${i}`);
+  const isFollowing = btn.textContent === 'Following';
+  btn.textContent = isFollowing ? 'Follow' : 'Following';
+  btn.classList.toggle('following', !isFollowing);
+  showToast(isFollowing ? 'Unfollowed' : 'Following!');
+}
+
+// ===== VIEW STORY =====
+function viewStory(name) {
+  showToast(`Viewing ${name}'s story...`);
+}
+
+// ===== TOAST =====
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// ===== SEARCH =====
+document.getElementById('searchInput').addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  document.querySelectorAll('.post').forEach(p => {
+    const text = p.innerText.toLowerCase();
+    p.style.display = (!q || text.includes(q)) ? 'block' : 'none';
+  });
+});
+
+// ===== INIT =====
+renderStories();
+renderPosts();
+renderSuggestions();
+</script>
+</body>
+</html>
